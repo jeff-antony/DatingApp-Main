@@ -1,5 +1,7 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
-import { HomeLayout,Register,Login, Landing, DashboardLayout,ChatLayout,ProfilePage } from './pages'
+import { HomeLayout,Register,Login, Landing, DashboardLayout,ChatLayout,EditProfilePage,EmployeeStatus, 
+  RelationshipStatus,ProfilePage
+} from './pages'
 
 
 
@@ -14,8 +16,10 @@ const router = createBrowserRouter([
         element:<Landing/>
       },
       {
-        path:'/register',
+        path:'/register/:userId',
         element:<Register/>
+        // path:'/register',
+        // element:<Register/>
       },
       {
         path:'/login',
@@ -26,12 +30,24 @@ const router = createBrowserRouter([
         element:<DashboardLayout/>
       },
       {
+        path:'/employeeStatus/:userId',
+        element:<EmployeeStatus/>
+      },
+      {
+        path:'/relationshipStatus/:userId',
+        element:<RelationshipStatus/>
+      },
+      {
         path:'/chats',
         element:<ChatLayout/>
       },
       {
-        path:'/edit-profile',
+        path:'/profile',
         element:<ProfilePage/>
+      },
+      {
+        path:'/edit-profile',
+        element:<EditProfilePage/>
       }
     ]
   },

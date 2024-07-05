@@ -7,6 +7,9 @@ import passport from "passport";
 import googleMiddleware from './middlewares/googleMiddleware.js';
 import session from 'express-session';
 import authRouter from './routes/authRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+import jobRoutes from './routes/jobRoutes.js';
+import matrimonyRoutes from'./routes/matrimonyRoute.js';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import cors from "cors";
@@ -47,6 +50,9 @@ app.use(
   //routes
   app.use(cookieParser());
   app.use('/api/auth', authRouter);
+  app.use('/api/images', userRoutes);
+  app.use('/api', jobRoutes);
+  app.use('/api',matrimonyRoutes);
 
   
 

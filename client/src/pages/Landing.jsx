@@ -7,42 +7,42 @@ import avatar2 from "../assets/images/avatar2.jpg";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 
 const Landing = () => {
   const handleGoogleLogin = () => {
     window.location.href = 'http://localhost:5100/api/auth/google';
   };
 
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  // const handleLogin = () => {
-  //   window.location.href = '/dashboard'
-  // }
+  const handleLogin = async (e) => {
+    e.preventDefault(); // Prevent default form submission
 
-  const handleLogin = async () => {
     try {
-      const loginData = loginMethod === 'phone' ? { phoneNumber, password } : { email, password };
-      const response = await axios.post('http://localhost:5100/api/auth/login', loginData);
-      console.log(response);
-      if (response.status === 201) {
-        navigate('/dashboard');
-      } else {
-        alert('Login failed. Please check your credentials and try again.');
-      }
+      const response = await axios.post('http://localhost:5100/api/auth/login', {
+        email,
+        password,
+      });
+
+      console.log(response.data); // For debugging (remove in production)
+      if(response.data.token || response.data.message ==='Login successfull')
+      // Handle successful login (e.g., store token, redirect to dashboard)
+      localStorage.setItem('token', response.data.token); // Example: store token in localStorage (consider using a secure storage solution)
+      toast.success('Login successful');
+      navigate('/dashboard'); // Example: navigate to dashboard
+
     } catch (error) {
-      alert('Login failed. Please check your credentials and try again.');
-      console.error('Login error:', error);
+      console.error(error.response.data.message); // Log error message for debugging
+      // Handle login errors (e.g., display error message)
+      toast.error('Login failed: ' + error.response.data.message); // Example: display error message
     }
   };
 
 
-
-  const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginMethod, setLoginMethod] = useState('email'); // 'phone' or 'email'
-  const createAccount = () => {
-    navigate('/google')
-   };
   return (
     <>
    <Navbar bg="dark" variant="dark" expand="lg"  sticky="top" expanded={true}>

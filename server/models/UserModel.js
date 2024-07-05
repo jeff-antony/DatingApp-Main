@@ -3,20 +3,20 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
     googleID: {
         type: String,
-        required: true,
+        required: false,
         unique:true
     },
     displayName: {
         type: String,
-        required: true
+        required: false
     },
     firstName: {
         type: String,
-        required: true
+        required: false
     },
     lastName: {
         type: String,
-        required: true
+        required: false
     },
     age: {
         type: Number,
@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
+        required: false,
         unique:true
     },
     dateOfBirth: {
@@ -38,9 +38,27 @@ const UserSchema = new mongoose.Schema({
     state: {
         type: String,
     },
+    interest: {
+        type: String,
+    },
+    photos: [{
+        url: String,
+        public_id: String
+    }],
+    hobbies: {
+        type: String,
+    },
     district: {
         type: String,
     },
+    smokingHabits: {
+        type: String,
+        required: false,
+      },
+      drinkingHabits: {
+        type: String,
+        required: false,
+      },
     profilePic: {
         type: String,
     },
@@ -60,6 +78,30 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    jobStatus: { 
+        type: String,
+         required:false
+         },
+  companyName: {
+     type: String, 
+     required: false 
+    },
+  jobTitle: { 
+    type: String, 
+    required: false 
+},
+  jobLocation: { 
+    type: String, 
+    required: false 
+},
+jobLevel:{
+    type:String,
+    required:false
+},
+isMatrimony:{
+    type: Boolean,
+    default: false
+},
     isAdmin: {
         type: Boolean,
         default: false

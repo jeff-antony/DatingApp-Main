@@ -2,7 +2,9 @@ import User from '../models/UserModel.js';
 import bcrypt from 'bcryptjs';
 import jwt  from "jsonwebtoken";
 import { createError } from '../errors/createError.js';
-
+import { UnauthenticatedError, UnauthorizedError } from '../errors/customErrors.js';
+import { hashPassword,comparePassword } from '../Utils/passwordUtils.js';
+import { createJWT } from '../Utils/tokenUtils.js';
 export const Register = async (req, res, next) => {
     try {
       let user = await User.findOne(req.params.userID);
@@ -49,32 +51,62 @@ export const Register = async (req, res, next) => {
 };
 
 export const Login = async (req, res, next) => {
-    try {
-      const user = await User.findOne({email:req.body.email})
-      if (!user) return next(createError(404,"user not found"))
-  
-        const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password)
-        if (!isPasswordCorrect) return next(createError(400,"Invalid password"))
-  
-          const token = jwt.sign({
-            id:user._id,
-            isAdmin:user.isAdmin,
-            isStaff:user.isStaff,
-            googleID:user.googleID,
-            password:user.password,
-            email:user.email
-          },
-          process.env.JWT
-        )
-          const{password,isAdmin,isStaff,...otherDetails}=user._doc
-  
-      res.cookie("accessToken",token,{
-        httpOnly:true,
-      }).status(201).json(otherDetails);
-    } catch (err) {
-      next(err)
+  try {
+    const { email, password } = req.body;
+
+    // 1. Validate email and password presence:
+    if (!email || !password) {
+      throw new createError(400, "Please provide both email and password.");
     }
+
+    // 2. Find user by email:
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new UnauthenticatedError("Invalid email or password.");
+    }
+
+    // 3. Compare password hashes:
+    const isValidUser = user && (await comparePassword(password, user.password));
+if (!isValidUser) throw new UnauthenticatedError('invalid credentials');
+
+    // 4. Create JWT using the tokenUtils function:
+    const token = createJWT({ id: user._id, email: user.email }); // Include only necessary user data
+
+    // 5. Send successful login response:
+    res.status(200).json({ user: { _id: user._id, email: user.email }, token, message: "Login successful" });
+  } catch (err) {
+    next(err);
   }
+};
+
+// export const Login = async (req, res, next) => {
+//     try {
+//       const user = await User.findOne({email:req.body.email})
+//       if (!user) return next(createError(404,"user not found"))
+  
+//         const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password)
+//         if (!isPasswordCorrect) return next(createError(400,"Invalid password"))
+  
+//           const token = jwt.sign({
+//             id:user._id,
+//             isAdmin:user.isAdmin,
+//             isStaff:user.isStaff,
+//             googleID:user.googleID,
+//             password:user.password,
+//             email:user.email
+//           },
+//           process.env.JWT
+//         )
+//           const{password,isAdmin,isStaff,...otherDetails}=user._doc
+  
+//       res.cookie("accessToken",token,{
+//         httpOnly:true,
+//       }).status(201).json(otherDetails);
+//     } catch (err) {
+//       next(err)
+//     }
+//   }
+
 
   export const getUserData = async (req, res,next) => {
     const userId = req.params.userId;

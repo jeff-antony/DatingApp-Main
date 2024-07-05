@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Nav, Tab, Card, Navbar,Col } from 'react-bootstrap';
+import { Container, Row, Nav, Tab, Card, Navbar,Col,Button } from 'react-bootstrap';
 import { Sidebar,SidebarLink,MainContent, ProfileImage, ProfileButton } from '../assets/wrappers/Dashboard';
 
 import avatar1 from "../assets/images/avatar1.jpg";
@@ -28,13 +28,13 @@ const DashboardLayout = () => {
           <Tab.Container defaultActiveKey="first">
             <Nav variant="tabs">
               <Nav.Item>
-                <Nav.Link eventKey="first">Tab</Nav.Link>
+                <Nav.Link eventKey="first">1</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second">Tab</Nav.Link>
+                <Nav.Link eventKey="second">2</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="third">Tab</Nav.Link>
+                <Nav.Link eventKey="third">3</Nav.Link>
               </Nav.Item>
             </Nav>
             <Tab.Content>
@@ -48,6 +48,9 @@ const DashboardLayout = () => {
                     <Card.Img variant="top" src={avatar1} />
                       <Card.Body>
                         <Card.Title>Emila Clark</Card.Title>
+                        {/* <a href="#" class="btn btn-outline-dark btn-sm">View</a> */}
+                        <Button variant="outline-dark" size="sm">View</Button>
+                        
                       </Card.Body>
                     </Card>
                   </Col>

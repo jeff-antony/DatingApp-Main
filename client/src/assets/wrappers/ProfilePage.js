@@ -17,10 +17,10 @@ export const ProfileImageWrapper = styled.div`
 `;
 
 export const ProfileImage = styled.img`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-right: 20px;
+  width: 120px;
+  height: 125px;
+  border-radius: 40%;
+  margin-right: 40px;
 `;
 
 export const ChangePhotoButton = styled(Button)`
@@ -28,9 +28,9 @@ export const ChangePhotoButton = styled(Button)`
   border: none;
   color: #007bff;
   padding: 0;
-  &:hover {
+  /* &:hover {
     color: #0056b3;
-  }
+  } */
 `;
 
 export const FormLabel = styled.label`

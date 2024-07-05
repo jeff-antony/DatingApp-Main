@@ -60,7 +60,7 @@ export const validateLoginInput = withValidationErrors
   .withMessage('Invalid Email format'),
   body('password').notEmpty().withMessage('password is required')
   
-])
+]);
 
 export const validateUpdateUserInput = withValidationErrors
 ([
