@@ -1,0 +1,35 @@
+.icon1,
+.km {
+  position: relative;
+  flex-shrink: 0;
+}
+.icon1 {
+  height: 16px;
+  width: 16px;
+  overflow: hidden;
+}
+.km {
+  width: 48px;
+  line-height: 150%;
+}
+.tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(16px);
+  border-radius: 32px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1.5px solid #fff;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1px;
+  gap: 6px;
+  height: 100%;
+  z-index: 2;
+  text-align: left;
+  font-size: 16px;
+}

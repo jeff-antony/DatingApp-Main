@@ -1,0 +1,223 @@
+.bio {
+    width: 147px;
+    display: inline-block;
+  }
+  .bio,
+  .bio1,
+  .line4 {
+    position: relative;
+    z-index: 1;
+  }
+  .line4 {
+    align-self: stretch;
+    height: 1px;
+    border-top: 1px solid #4b164c;
+    box-sizing: border-box;
+  }
+  .bio1 {
+    text-decoration: none;
+    width: 147px;
+    color: inherit;
+    display: inline-block;
+  }
+  .avatar-icon,
+  .avatar-icon1 {
+    position: relative;
+    border-radius: 9999px;
+    overflow: hidden;
+    flex-shrink: 0;
+    object-fit: cover;
+    min-height: 36px;
+    z-index: 1;
+  }
+  .avatar-icon {
+    align-self: stretch;
+    width: 30px;
+    max-height: 100%;
+  }
+  .avatar-icon1 {
+    height: 36px;
+    width: 31px;
+  }
+  .avatar-parent,
+  .frame-wrapper3 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .avatar-parent {
+    flex: 1;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .frame-wrapper3 {
+    width: 108px;
+    justify-content: flex-start;
+    padding: 0 5px;
+    box-sizing: border-box;
+  }
+  .bio2 {
+    align-self: stretch;
+    position: relative;
+    z-index: 1;
+  }
+  .frame-parent4 {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 6px;
+  }
+  .avatar-icon2 {
+    width: 30px;
+    height: 35px;
+    position: relative;
+    border-radius: 9999px;
+    overflow: hidden;
+    flex-shrink: 0;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .avatar-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 1px 0 0;
+  }
+  .avatar-icon3 {
+    height: 35px;
+    width: 30px;
+    position: relative;
+    border-radius: 9999px;
+    overflow: hidden;
+    flex-shrink: 0;
+    object-fit: contain;
+    z-index: 2;
+  }
+  .frame-parent5 {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .frame-wrapper4 {
+    width: 110px;
+    flex-direction: row;
+    padding: 0 5px;
+    box-sizing: border-box;
+  }
+  .frame-parent3,
+  .frame-wrapper2,
+  .frame-wrapper4 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .frame-parent3 {
+    flex: 1;
+    flex-direction: column;
+  }
+  .frame-wrapper2 {
+    align-self: stretch;
+    flex-direction: row;
+    padding: 0 8px 0 1px;
+  }
+  .phone-number2 {
+    align-self: stretch;
+    position: relative;
+    cursor: pointer;
+    z-index: 1;
+  }
+  .frame-parent2 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 26px;
+  }
+  .avatar-icon4 {
+    height: 36px;
+    width: 30px;
+    position: relative;
+    border-radius: 9999px;
+    overflow: hidden;
+    flex-shrink: 0;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .add-contact-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0 3px;
+  }
+  .plus-icon {
+    width: 36px;
+    height: 43px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    z-index: 2;
+  }
+  .add-contact-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 18px;
+  }
+  .plus-icon1 {
+    height: 43px;
+    width: 36px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+  .add-contacts,
+  .frame-parent1 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .add-contacts {
+    gap: 13px;
+    margin-left: -8px;
+  }
+  .frame-parent1 {
+    align-self: stretch;
+  }
+  .bio-content {
+    width: 224px;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 7px;
+  }
+  .bio-content,
+  .bio-field,
+  .bio-parent {
+    display: flex;
+    align-items: flex-start;
+  }
+  .bio-parent {
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10.6px;
+  }
+  .bio-field {
+    width: 300.7px;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0 5px 7px;
+    box-sizing: border-box;
+    text-align: left;
+    font-size: 10px;
+  }

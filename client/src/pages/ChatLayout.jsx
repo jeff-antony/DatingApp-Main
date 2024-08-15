@@ -1,111 +1,123 @@
-import React from 'react'
-import { Container, Row, FormControl,Button } from 'react-bootstrap';
-import { FaPhone, FaVideo, FaEllipsisV, FaSearch } from 'react-icons/fa';
-import { Sidebar,MainContent,
-    ChatContainer,
-    MessageContainer,
-    Message,
-    ChatInputContainer,
-    ChatSidebar } from '../assets/wrappers/ChatLayout';
-    import avatar1 from '../assets/images/avatar1.jpg';
-    import { DashboardNavbar } from '../components';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, FormControl } from 'react-bootstrap';
+import io from 'socket.io-client';
+import { useParams } from 'react-router-dom';
+import { DashboardNavbar, Chat } from '../components';
+import styled from 'styled-components';
+import axios from 'axios';
+
+const Sidebar = styled(Col)`
+  border-right: 1px solid #e9ecef;
+  padding: 0;
+`;
+
+const ChatContainer = styled(Col)`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+`;
+
+const FriendListItem = styled.div`
+  cursor: pointer;
+  padding: 10px;
+  &:hover {
+    background-color: #e9ecef;
+    border-radius: 4px;
+  }
+`;
 
 const ChatLayout = () => {
+  const { userId } = useParams();
+  const [selectedFriend, setSelectedFriend] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [socket, setSocket] = useState(null);
+  const [friends, setFriends] = useState([]);
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    const newSocket = io('http://localhost:5100');
+    setSocket(newSocket);
+
+    newSocket.emit('joinRoom', storedUserId);
+
+    newSocket.on('receiveMessage', (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    return () => newSocket.close();
+  }, [userId]);
+
+  useEffect(() => {
+    const fetchFriends = async () => {
+      try {
+        const storedUserId = localStorage.getItem("userId");
+        const response = await axios.get(`http://localhost:5100/api/friend-request/${storedUserId}/friends`);
+        setFriends(response.data);
+        console.log(friends,'friend');
+      } catch (error) {
+        console.error('Failed to fetch friends', error);
+      }
+    };
+
+    fetchFriends();
+  }, [userId]);
+
+  const sendMessage = async (text) => {
+    if (selectedFriend) {
+      const newMessage = {
+        senderId: userId,
+        receiverId: selectedFriend.id,
+        text: text
+      };
+      
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      socket.emit('sendMessage', newMessage);
+    }
+    console.log(selectedFriend.id,'receiverid');
+  };
+
   return (
     <>
-    <DashboardNavbar/>
-    
-    <Container fluid>
-      <Row>
-        <Sidebar md={2}>
-          <FormControl
-            type="search"
-            placeholder="Search chats"
-            className="mb-3"
-          />
-          <div>
-            {/* List of Chats */}
-            {['Helena Hills', 'Mark Rojas',
-              'Mom'].map((name, index) => (
-              <div className="d-flex align-items-center mb-3" key={index}>
-                <img
-                  src={`https://via.placeholder.com/50?text=${name.charAt(0)}`}
-                  alt={name}
-                  className="rounded-circle me-2"
-                />
-                <div>
-                  <div>{name}</div>
-                  <div className="text-muted">Will head to the Help Center...</div>
+      <DashboardNavbar />
+      <Container fluid>
+        <Row style={{ height: '100vh' }}>
+          <Sidebar md={3}>
+            <FormControl type="search" placeholder="Search chats" className="mb-3" />
+            {Array.isArray(friends) && friends.map(friend => (
+              <FriendListItem key={friend.id} onClick={() => setSelectedFriend(friend)}>
+                <div className="d-flex align-items-center">
+                  <img
+                    src={friend.profilePic}
+                    alt={friend.displayName}
+                    className="rounded-circle me-2"
+                    width="50"
+                    height="50"
+                  />
+                  <div>
+                    <div>{friend.displayName}</div>
+                  </div>
                 </div>
-              </div>
+              </FriendListItem>
+              
             ))}
-          </div>
-        </Sidebar>
-        <ChatContainer md={7}>
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <div className="d-flex align-items-center">
-              <img
-                src="https://via.placeholder.com/50"
-                alt="Helena Hills"
-                className="rounded-circle me-2"
+            
+          </Sidebar>
+          <ChatContainer md={9}>
+            {selectedFriend ? (
+              <Chat
+                friend={selectedFriend}
+                messages={messages}
+                onSendMessage={sendMessage}
               />
-              <div>
-                <div>Helena Hills</div>
-                <div className="text-muted">Active 20m ago</div>
-              </div>
-            </div>
-            <div>
-              <Button variant="link" className="p-0 me-2 text-black"><FaPhone /></Button>
-              <Button variant="link" className="p-0 me-2 text-black" ><FaVideo /></Button>
-              <Button variant="link" className="p-0 text-black"><FaEllipsisV /></Button>
-            </div>
-          </div>
-          <MessageContainer>
-            <div className="text-center text-muted my-3">Nov 30, 2023, 9:41 AM</div>
-            <Message isSender={true}>This is the main chat template</Message>
-            <Message isSender={false}>Oh?</Message>
-            <Message isSender={false}>Cool</Message>
-            <Message isSender={false}>How does it work?</Message>
-            <Message isSender={true}>Simple</Message>
-            <Message isSender={true}>You just edit any text to type in the conversation you want to show, and delete any bubbles you don’t want to use</Message>
-            <Message isSender={true}>Boom</Message>
-            <Message isSender={false}>Hmmm</Message>
-            <Message isSender={false}>I think I get it</Message>
-            <Message isSender={false}>Will head to the Help Center if I have more questions tho</Message>
-          </MessageContainer>
-          <ChatInputContainer>
-            <FormControl 
-              placeholder="Enter your message"
-              aria-label="Enter your message"
-            />
-            <Button variant="outline-secondary dark">Send</Button>
-          </ChatInputContainer>
-        </ChatContainer>
-        {/* <ChatSidebar md={3}>
-          <div className="d-flex align-items-center mb-3">
-            <img
-              src="https://via.placeholder.com/50"
-              alt="Helena Hills"
-              className="rounded-circle me-2"
-            />
-            <div>
-              <div>Helena</div>
-              <div className="text-muted">Active 20m ago</div>
-            </div>
-          </div>
-          <Button variant="dark" className="w-100 mb-3">View profile</Button>
-          <div className="d-flex flex-column">
-            <Button variant="dark" className="text-start"><FaSearch className="me-2" />Search chat</Button>
-            <br></br>
-            <Button variant="dark" className="text-start"><FaEllipsisV className="me-2" />Sent images</Button>
-            <br></br>
-            <Button variant="dark" className="text-start"><FaEllipsisV className="me-2" />More options</Button>
-          </div>
-        </ChatSidebar> */}
-      </Row>
-    </Container>
+            ) : (
+              <div>Select a friend to start chatting</div>
+            )}
+          </ChatContainer>
+        </Row>
+      </Container>
     </>
-  )
-}
+  );
+};
 
-export default ChatLayout
+export default ChatLayout;

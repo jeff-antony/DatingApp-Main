@@ -1,8 +1,10 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import { HomeLayout,Register,Login, Landing, DashboardLayout,ChatLayout,EditProfilePage,EmployeeStatus, 
-  RelationshipStatus,ProfilePage
+  RelationshipStatus,ProfilePage,Notification,
+  ChooseLayout,EcommerceHomePage,AdminDashboard,AdminEcommerce,CartPage,Shortlisted,EditMyProfile,ChangePassword,PrivacySettings,Filter
 } from './pages'
-
+import { ProtectedRoute } from './components'
+import GlobalStyle from './globalStyles'
 
 
 const router = createBrowserRouter([
@@ -26,29 +28,151 @@ const router = createBrowserRouter([
         element:<Login/>
       },
       {
+        path:'/chooseLayout',
+        element: (
+          <ProtectedRoute>
+            <ChooseLayout/>
+          </ProtectedRoute>
+          
+        )
+      },
+      {
+        path:'/adminDashboard',
+        element: (
+          <ProtectedRoute>
+            <AdminDashboard/>
+          </ProtectedRoute>
+          
+        )
+      },
+      {
+        path:'/adminEcommerce',
+        element: (
+          <ProtectedRoute>
+            <AdminEcommerce/>
+          </ProtectedRoute>
+          
+        )
+      },
+      {
+        path:'/e-commerceHomePage',
+        element: (
+          <ProtectedRoute>
+            <EcommerceHomePage/>
+          </ProtectedRoute>
+          
+        )
+      },
+      {
+        path:'/cart/:userId',
+        element: (
+          <ProtectedRoute>
+            <CartPage/>
+          </ProtectedRoute>
+          
+        )
+      },
+      {
         path:'/dashboard',
-        element:<DashboardLayout/>
+        element: (
+          <ProtectedRoute>
+            <DashboardLayout/>
+          </ProtectedRoute>
+          
+        )
+      },
+      {
+        path:'/notifications/:userId',
+        element: (
+          // <ProtectedRoute>
+            <Notification/>
+          // </ProtectedRoute>
+          
+        )
       },
       {
         path:'/employeeStatus/:userId',
-        element:<EmployeeStatus/>
+        element:(
+          <ProtectedRoute>
+            <EmployeeStatus/>
+          </ProtectedRoute>
+        )
       },
       {
         path:'/relationshipStatus/:userId',
-        element:<RelationshipStatus/>
+        element:(
+          <ProtectedRoute>
+            <RelationshipStatus/>
+          </ProtectedRoute>
+        )
       },
       {
-        path:'/chats',
-        element:<ChatLayout/>
+        path:'/chats/:userId',
+        element:(
+          // <ProtectedRoute>
+            <ChatLayout/>
+          // </ProtectedRoute>
+        )
       },
       {
-        path:'/profile',
-        element:<ProfilePage/>
+        path:'/profile/:id',
+        element:(
+          <ProtectedRoute>
+            <ProfilePage/>
+          </ProtectedRoute>
+        )
       },
       {
-        path:'/edit-profile',
-        element:<EditProfilePage/>
-      }
+        path:'/edit-profile/:userId',
+        element:(
+          <ProtectedRoute>
+            <EditProfilePage/>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path:'/edit-my-profile',
+        element:(
+          <ProtectedRoute>
+            <EditMyProfile/>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path:'/change-password',
+        element:(
+          <ProtectedRoute>
+            <ChangePassword/>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path:'/filter',
+        element:(
+          <ProtectedRoute>
+            <Filter/>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path:'/privacy-settings',
+        element:(
+          <ProtectedRoute>
+            <PrivacySettings/>
+          </ProtectedRoute>
+        )
+      },
+      
+      {
+        path:'/shortlisted',
+        element: (
+          <ProtectedRoute>
+             <GlobalStyle />
+            <Shortlisted/>
+          </ProtectedRoute>
+          
+        )
+      },
     ]
   },
  

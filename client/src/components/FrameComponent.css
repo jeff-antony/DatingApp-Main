@@ -1,0 +1,169 @@
+.avatar-background,
+.ellipse-icon {
+  position: absolute;
+  margin: 0 !important;
+  top: 0;
+  z-index: 1;
+}
+.avatar-background {
+  width: 30px;
+  height: 3px;
+  right: 134.7px;
+  border-radius: 100px;
+  background-color: #e6e6e6;
+}
+.ellipse-icon {
+  height: 100%;
+  width: 100%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 50%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  object-fit: cover;
+}
+.icon2 {
+  position: absolute;
+  top: 3.5px;
+  left: 5.1px;
+  width: 9.2px;
+  height: 10.9px;
+  z-index: 3;
+}
+.tag-group {
+  height: 18px;
+  flex: 1;
+  position: relative;
+}
+.ellipse-parent {
+  width: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 42px 19px 0 22px;
+  box-sizing: border-box;
+  position: relative;
+}
+.nazrul-islam,
+.never-give-up {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+.nazrul-islam {
+  margin: 0;
+  font-size: inherit;
+  line-height: 20px;
+  font-weight: 400;
+  font-family: inherit;
+  min-width: 125px;
+}
+.never-give-up {
+  line-height: 12px;
+  min-width: 104px;
+}
+.user-bio {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 3px;
+  font-size: 12px;
+  color: #797c7b;
+}
+.nazrul-islam-parent {
+  flex-direction: column;
+  gap: 6px;
+}
+.avatar-wrapper,
+.avatar-wrapper-inner,
+.nazrul-islam-parent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.avatar-wrapper-inner {
+  flex-direction: column;
+  padding: 11px 0 0;
+  font-size: 20px;
+  color: #000e08;
+}
+.avatar-wrapper {
+  flex-direction: row;
+  gap: 12px;
+}
+.all-your-account {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+.all-your-account-information-c-wrapper,
+.avatar-container {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.all-your-account-information-c-wrapper {
+  flex-direction: row;
+  padding: 0 0 0 17px;
+  font-size: 10px;
+  color: #282827;
+  font-family: Poppins;
+}
+.avatar-container {
+  flex-direction: column;
+  gap: 12.9px;
+}
+.line3,
+.name {
+  position: relative;
+  z-index: 1;
+}
+.name {
+  width: 147px;
+  display: inline-block;
+}
+.line3 {
+  align-self: stretch;
+  height: 1px;
+  border-top: 1px solid #4b164c;
+  box-sizing: border-box;
+}
+.name-field,
+.name-parent {
+  display: flex;
+  align-items: flex-start;
+}
+.name-parent {
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 11px;
+}
+.name-field {
+  width: 300.2px;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 0 5px;
+  box-sizing: border-box;
+  font-size: 10px;
+  color: #282827;
+  font-family: Poppins;
+}
+.avatar-background-parent {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 27px 0 0;
+  position: relative;
+  gap: 35.8px;
+  text-align: left;
+  font-size: 16px;
+  color: #fff;
+}

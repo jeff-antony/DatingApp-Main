@@ -1,6 +1,9 @@
 import cloudinary from '../config/cloudinary.js';
 import User from '../models/UserModel.js';
 
+
+import { createError } from '../errors/createError.js';
+
 const uploadUserPhotos = async (req, res) => {
     const { userId } = req.params;
     const files = req.files;
@@ -74,3 +77,44 @@ const deleteUserPhoto = async (req, res) => {
 };
 
 export { uploadUserPhotos, getUserPhotos, deleteUserPhoto };
+
+//--------------------------------------------------------------------------
+// Fetch profiles of other users excluding the logged-in user
+export const getOtherUsers = async (req, res, next) => {
+    try {
+      const userId = req.user.id;
+      const users = await User.find({ _id: { $ne: userId } });
+      res.status(200).json(users);
+    } catch (error) {
+      next(createError(500, "Server Error"));
+    }
+  };
+
+  // Fetch the profile of the logged-in user
+export const getUserProfile = async (req, res, next) => {
+    try {
+      const userId = req.user.id;
+      const user = await User.findById(userId);
+      if (!user) {
+        return next(createError(404, "User not found"));
+      }
+      res.status(200).json(user);
+    } catch (error) {
+      next(createError(500, "Server Error"));
+    }
+  };
+
+  export const updateUserProfile = async (req, res, next) => {
+    try {
+      const userId = req.user.id;
+      const updates = req.body;
+      const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });
+      if (!updatedUser) {
+        return next(createError(404, "User not found"));
+      }
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      next(createError(500, "Server Error"));
+    }
+  };
+    

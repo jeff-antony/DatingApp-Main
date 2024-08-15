@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Tab, Tabs, Nav } from 'react-bootstrap';
 import { FaThumbsUp, FaUserPlus, FaEnvelope, FaCamera, FaVideo, FaCheck } from 'react-icons/fa';
 import { DashboardNavbar } from '../components';
@@ -44,47 +46,73 @@ const GridItem = styled.div`
   position: relative;
 `;
 
-const LikeCount = styled.span`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 2px 5px;
-  border-radius: 5px;
-`;
-
-export const Sidebar = styled(Col)`
-  background-color: #f8f9fa;
-  height: 100vh;
-  padding: 20px;
-  border-right: 1px solid #dee2e6; /* Separation line */
-`;
-
-export const SidebarLink = styled.a`
-  color: #000;
-  text-decoration: none;
-  padding: 10px 0;
-  display: block;
-  &:hover {
-    background-color: #e9ecef;
-    border-radius: 4px;
-  }
-`;
-
 const ProfilePage = () => {
+  const { id:  receiverId } = useParams();
+  const [profile, setProfile] = useState({});
   const [likes, setLikes] = useState(0);
   const [key, setKey] = useState('photos');
   const [requestSent, setRequestSent] = useState(false);
   const [photoLikes, setPhotoLikes] = useState(Array(6).fill(0));
   const [videoLikes, setVideoLikes] = useState(Array(6).fill(0));
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`http://localhost:5100/api/dashboard/get-userProfile/${receiverId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setProfile(response.data);
+
+        // Fetch photos data
+        const photosResponse = await axios.get(`http://localhost:5100/api/users/${receiverId}/photos`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPhotos(photosResponse.data);
+        // Initialize photo likes array with zeros
+        setPhotoLikes(new Array(photosResponse.data.length).fill(0));
+        setVideoLikes(new Array(profileResponse.data.videos?.length || 0).fill(0));
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    fetchProfile();
+  }, [receiverId]);
+
   const handleLike = () => {
     setLikes(likes + 1);
   };
 
-  const handleRequest = () => {
-    setRequestSent(true);
+  const handleRequest = async () => {
+    try {
+      const token = localStorage.getItem('token'); // Or however you store the token
+      const senderId = localStorage.getItem('userId')
+      const payload = { senderId, receiverId };
+      console.log('Payload:', payload)
+      
+      const response = await axios.post(
+        'http://localhost:5100/api/friend-request/send',
+        payload,
+        
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(senderId,'sender');
+      console.log(receiverId,'receiver');
+      if (response.status === 201) {
+        setRequestSent(true);
+      }
+    } catch (error) {
+      console.error('Failed to send friend request', error);
+    }
   };
 
   const handlePhotoLike = (index) => {
@@ -104,41 +132,39 @@ const ProfilePage = () => {
       <DashboardNavbar />
       <Container fluid>
         <Row>
-          <Sidebar md={2}>
+          <Col md={2}>
             <Nav defaultActiveKey="/home" className="flex-column">
-              <SidebarLink href="/dashboard">Home</SidebarLink>
-              <SidebarLink href="/browse">Browse</SidebarLink>
-              <SidebarLink href="/chats">Messages</SidebarLink>
-              <SidebarLink href="/notifications">Notifications</SidebarLink>
-              <SidebarLink href="/personalized-picks">Personalized Picks</SidebarLink>
-              <SidebarLink href="/">Log Out</SidebarLink>
+              <Nav.Link href="/dashboard">Home</Nav.Link>
+              <Nav.Link href="/browse">Browse</Nav.Link>
+              <Nav.Link href="/chats">Messages</Nav.Link>
+              <Nav.Link href="/notifications">Notifications</Nav.Link>
+              <Nav.Link href="/personalized-picks">Personalized Picks</Nav.Link>
+              <Nav.Link href="/">Log Out</Nav.Link>
             </Nav>
-          </Sidebar>
+          </Col>
 
           <Col md={8} className="mx-auto">
             <ProfileCard>
               <Card.Body>
                 <Row>
                   <Col md={4}>
-                    <ProfilePhoto src={avatar1} alt="Profile Photo" />
+                    <ProfilePhoto src={profile.profilePic} alt="Profile Photo" />
                   </Col>
                   <Col md={8}>
-                    <h4>Name</h4>
-                    <p>Address</p>
+                    <h4>{profile.firstName} {profile.lastName}</h4>
+                    <p>{profile.state}</p>
                     <Row>
                       <Col sm>
                         <LikeButton variant="outline-primary" size="sm" onClick={handleLike}>
                           <FaThumbsUp style={{ marginRight: '5px' }} /> Like {likes}
                         </LikeButton>
                       </Col>
-
                       <Col sm>
                         <RequestButton variant="outline-secondary" size="sm" onClick={handleRequest}>
                           {requestSent ? <FaCheck style={{ marginRight: '5px' }} /> : <FaUserPlus style={{ marginRight: '5px' }} />}
                           {requestSent ? 'Requested' : 'Request'}
                         </RequestButton>
                       </Col>
-
                       <Col sm>
                         <MessageButton variant="outline-success" size="sm">
                           <FaEnvelope style={{ marginRight: '5px' }} /> Message
@@ -150,7 +176,7 @@ const ProfilePage = () => {
                 <Row className="mt-4">
                   <Col>
                     <h5>Bio</h5>
-                    <p>This is the bio of the person...</p>
+                    <p>{profile.bio}</p>
                   </Col>
                 </Row>
                 <Tabs id="profile-tabs" activeKey={key} onSelect={(k) => setKey(k)} className="mt-4">
@@ -163,11 +189,10 @@ const ProfilePage = () => {
                     }
                   >
                     <GridContainer>
-                      {[...Array(6)].map((_, index) => (
-                        <GridItem key={index} >
-                          <img src={avatar1} alt={`Photo ${index + 1}`} style={{ width: '100%', height: 'auto' }} />
-                          <LikeButton variant="outline-primary" size="sm" className='mt-2'
-                           onClick={() => handlePhotoLike(index)}>
+                      {profile.photos && profile.photos.map((photo, index) => (
+                        <GridItem key={index}>
+                          <img src={photo} alt={`Photo ${index + 1}`} style={{ width: '100%', height: 'auto' }} />
+                          <LikeButton variant="outline-primary" size="sm" className='mt-2' onClick={() => handlePhotoLike(index)}>
                             <FaThumbsUp style={{ marginRight: '5px' }} /> {photoLikes[index]}
                           </LikeButton>
                         </GridItem>
@@ -183,10 +208,10 @@ const ProfilePage = () => {
                     }
                   >
                     <GridContainer>
-                      {[...Array(6)].map((_, index) => (
+                      {profile.videos && profile.videos.map((video, index) => (
                         <GridItem key={index}>
                           <video width="100%" controls>
-                            <source src={`path_to_video_${index + 1}.mp4`} type="video/mp4" />
+                            <source src={video} type="video/mp4" />
                             Your browser does not support the video tag.
                           </video>
                           <LikeButton variant="outline-primary" size="sm" onClick={() => handleVideoLike(index)}>

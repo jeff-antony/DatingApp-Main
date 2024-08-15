@@ -1,0 +1,188 @@
+.edit-profile-container{
+    height: 100vh;
+    background-color: blueviolet;
+}
+
+.edit-profile-sub-container{
+
+width: 100%;
+height: 15%;
+display: flex;
+flex-direction: column;
+
+}
+.edit-profile-content{
+display: flex;
+
+position: relative;
+
+
+}
+
+.back-btn-span{
+    font-size: 30px;
+    color: white;
+    background-color: blueviolet;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px rgb(206, 200, 200) solid;
+    position: absolute;
+    top: 64px;
+    left: 30px;
+}
+.edit-my-profile-header{
+    font-size: 24px;
+    color: #ffff;
+    margin-bottom: 20px;
+    position: absolute;
+    top: 70px;
+    left: 140px;
+   
+}
+.edit-profile-form-content{
+
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100vh;
+    width: 100%;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    background-color: #ffff;
+    position: relative;
+}
+
+.edit-profile-form-bar{
+    width: 10%;
+  height: 4px; 
+  background-color: #bdb8b8; 
+  border-radius: 2px; 
+  position: absolute;
+  top: 40px;   
+}
+
+.edit-profile-info{
+width: 100%;
+height: 19%;
+/* background-color: red; */
+position: absolute;
+top: 50px;
+}
+.edit-profile-info-container{
+    /* background-color:yellow; */
+    width: 100%;
+height: 65%;
+display: flex;
+position: relative;
+}
+.edit-profile-info-image{
+   
+    margin-top: 10px;
+    margin-left: 20px;
+    width: 70px;
+    height: 70px;
+   
+}
+.edit-profile-image-tag{
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.edit-profile-info-details{
+    position: absolute;
+    top: 20px;
+    right: 180px;
+    display: flex;
+    flex-direction: column;
+    
+}
+.edit-profile-name{
+    font-size: 20px;
+    font-weight: 600;
+
+}
+.edit-profile-status{
+    font-size: 14px;
+    font-weight: 200;
+}
+.account-description{
+    width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.account-description-span{
+ width: 95%;
+}
+
+/* .edit-my-profile-form {
+    width: 90%;
+    max-width: 500px;
+   
+    padding: 50px;
+   
+   }  */
+
+   .input-container {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.input-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 2px solid purple;
+    outline: none;
+}
+
+.input-container input:focus {
+    border-color: #800080; /* Adjusts the color on focus if necessary */
+}
+
+.media-input .section {
+    margin-bottom: 20px;
+  }
+  
+  .media-input h2 {
+    margin-bottom: 10px;
+  }
+  
+  .media-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .media-item, .add-media {
+    width: 50px; /* Adjust size as needed */
+    height: 50px;
+    border-radius: 50%; /* Makes the items circular */
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 2px solid #ccc; /* Add border for better visibility */
+  }
+  
+  .media-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+  }
+  
+  .add-media span {
+    font-size: 24px; /* Adjust size as needed */
+    color: #000; /* Color of the plus sign */
+  }

@@ -28,7 +28,8 @@ const Register = () => {
     interest:'',
     hobbies:'',
     smokingHabits:'',
-    drinkingHabits:''
+    drinkingHabits:'',
+    photos:''
     // otp: '',
   });
 
@@ -86,7 +87,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5100/api/auth/register/:id`, formData);
+      const response = await axios.put(`http://localhost:5100/api/auth/register/${userId}`, formData);
       console.log('Registration successful:', response.data);
       toast.success('Register Successful')
       // Redirect to dashboard or another page
@@ -146,16 +147,16 @@ const Register = () => {
             prevStep={prevStep}
           />
         );
-        case 5:
-        return (
-          <Step5
-            formData={formData}
-            handleChange={handleChange}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        );
-      case 6:
+        // case 5:
+        // return (
+        //   <Step5
+        //     formData={formData}
+        //     handleChange={handleChange}
+        //     nextStep={nextStep}
+        //     prevStep={prevStep}
+        //   />
+        // );
+      case 5:
         return (
           <Step6
             formData={formData}
@@ -199,7 +200,7 @@ const Register = () => {
                   )}
                 </Card.Body>
                 <Card.Footer className="text-muted">
-                  Already have an account? <Link to="/login">Login</Link>
+                  Already have an account? <Link to="/">Login</Link>
                 </Card.Footer>
               </Card>
             </Col>
@@ -283,7 +284,7 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
           size='sm'
           type="text"
           placeholder="Gender"
-          required={true}
+        
           name="gender"
           value={formData.gender}
           onChange={handleChange}
@@ -429,17 +430,20 @@ const Step4 = ({ formData, handleChange, nextStep, prevStep }) => (
     <Button variant="dark" onClick={nextStep}>Next</Button>
   </>
 );
-const Step5 = ({ formData, handleChange, nextStep, prevStep }) => (
-  <>
-    <Card.Title>Step 4:Upload Photo </Card.Title>
+// const Step5 = ({ formData, handleChange, nextStep, prevStep }) => (
+//   <>
+//     <Card.Title>Step 4:Upload Photo </Card.Title>
     
-    {/* {userId && <PhotoUploads userId={userId} />}  Render PhotoUpload component after registration */}
-    { <PhotoUploads />}  {/* Render PhotoUpload component after registration */}
+    
+//     {userId && <PhotoUploads userId={userId} />} 
+//      {/* Render PhotoUpload component after registration  */}
+//     {/* { <PhotoUploads />} */}
+//     {/* Render PhotoUpload component after registration */}
 
-    <Button variant="outline-secondary dark" onClick={prevStep} className='me-3'>Previous</Button>
-    <Button variant="dark" onClick={nextStep}>Next</Button>
-  </>
-);
+//     <Button variant="outline-secondary dark" onClick={prevStep} className='me-3'>Previous</Button>
+//     <Button variant="dark" onClick={nextStep}>Next</Button>
+//   </>
+// );
 
 const Step6 = ({ formData, handleChange, prevStep, handleSubmit }) => (
   <>

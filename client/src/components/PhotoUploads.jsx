@@ -20,9 +20,11 @@ const PhotoUploads = ({ userId }) => {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     setSelectedFiles(files);
+    console.log(setSelectedFiles(files),'photo');
 
     const newPreviews = files.map((file) => URL.createObjectURL(file));
     setPreviews(newPreviews);
+    console.log(e.target.files);
   };
 
   const handleSubmit = async (e) => {
@@ -31,10 +33,12 @@ const PhotoUploads = ({ userId }) => {
 
     selectedFiles.forEach((file) => {
       formData.append('files', file);
+      console.log(e.target.files);
+
     });
 
     try {
-      const response = await axios.post(`/api/users/${userId}/photos`, formData, {
+      const response = await axios.post(`http://localhost:5100/api/upload/photos/${userId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -53,7 +57,7 @@ const PhotoUploads = ({ userId }) => {
           type="file"
           multiple
           onChange={handleFileChange}
-          accept="image/*"
+          accept="image/png, image/jpeg, image/jpg, image/jfif"
           disabled={selectedFiles.length >= 6}
         />
       </Form.Group>

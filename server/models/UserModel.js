@@ -45,6 +45,15 @@ const UserSchema = new mongoose.Schema({
         url: String,
         public_id: String
     }],
+    videos: [{
+        url: String,
+        public_id: String
+    }],
+    friends: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User' 
+    }],
+
     hobbies: {
         type: String,
     },
@@ -68,8 +77,16 @@ const UserSchema = new mongoose.Schema({
     professional: {
         type: String,
     },
+    phoneNumber: {
+        type: String,
+        required: false
+    },
+    bio:{
+        type: String,
+    },
     password: {
         type: String,
+        
     },
     confirmPassword: {
         type: String

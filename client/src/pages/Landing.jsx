@@ -18,9 +18,14 @@ const Landing = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false); // New state to handle submit button
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent default form submission
+      // Prevent multiple form submissions
+      if (isSubmitting) return;
+
+      setIsSubmitting(true);
 
     try {
       const response = await axios.post('http://localhost:5100/api/auth/login', {
@@ -29,16 +34,29 @@ const Landing = () => {
       });
 
       console.log(response.data); // For debugging (remove in production)
-      if(response.data.token || response.data.message ==='Login successfull')
-      // Handle successful login (e.g., store token, redirect to dashboard)
-      localStorage.setItem('token', response.data.token); // Example: store token in localStorage (consider using a secure storage solution)
-      toast.success('Login successful');
-      navigate('/dashboard'); // Example: navigate to dashboard
+      // if(response.data.token || response.data.message ==='Login successfull'){
+      if(response.data.token || response.data.message ==='Login successfull'){
+        localStorage.setItem('token', response.data.token); //  store token in localStorage (consider using a secure storage solution)
+        localStorage.setItem('userId', response.data.user._id); //  store token in localStorage (consider using a secure storage solution)
+        localStorage.setItem('isAdmin', response.data.user.isAdmin); // store isAdmin in localStorage
 
+        toast.success('Login successful');
+
+
+        if (response.data.user.isAdmin) {
+          navigate(`/adminDashboard`)
+        }
+        else {
+          navigate('/chooseLayout'); // navigate to dashboard
+        }
+        }
+      // Handle successful login (e.g., store token, redirect to dashboard)
     } catch (error) {
       console.error(error.response.data.message); // Log error message for debugging
       // Handle login errors (e.g., display error message)
-      toast.error('Login failed: ' + error.response.data.message); // Example: display error message
+      toast.error('Login failed: ' + error.response.data.message); // display error message
+    }finally{
+      setIsSubmitting(false); // Re-enable the submit button
     }
   };
 
@@ -94,7 +112,9 @@ const Landing = () => {
               onChange={(e) => setPassword(e.target.value)} 
                 />
             </Form.Group>
-            <Button variant="dark" className="w-100" onClick={handleLogin}>Submit</Button>
+            <Button variant="dark" className="w-100" onClick={handleLogin} disabled={isSubmitting}>
+            {isSubmitting ? 'Logging in...' : 'Login'}
+              </Button>
           </Form>
           <div className="form-footer">
             {/* <p>

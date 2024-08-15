@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Col, Button, InputGroup } from 'react-bootstrap';
 
+
 export const Sidebar = styled(Col)`
   background-color: #f8f9fa;
   height: 100vh;
